@@ -1,0 +1,47 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:dong="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!--<com.dong.tourshanghai.view.SlidingMenu-->
+    <!--android:id="@+id/slidingmenu"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:background="@mipmap/img_frame_background"-->
+    <!--dong:rightPadding="120dp"-->
+    <!--android:scrollbars="none">-->
+
+    <!--<LinearLayout-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:orientation="horizontal">-->
+
+    <!--<include layout="@layout/layout_leftmenu" />-->
+    <!-- -->
+    <!--<LinearLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:orientation="vertical">-->
+    <!-- -->
+    <!-- -->
+    <!--</LinearLayout>-->
+    <!--</LinearLayout>-->
+
+    <!--</com.dong.tourshanghai.view.SlidingMenu>-->
+
+
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:id="@+id/include_bottom"
+        android:layout_alignParentBottom="true"
+        layout="@layout/layout_footbar" />
+
+    <FrameLayout
+        android:id="@+id/layout_middle_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/include_bottom" />
+
+</RelativeLayout>

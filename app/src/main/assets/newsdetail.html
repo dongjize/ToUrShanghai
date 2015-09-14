@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <script language="javascript">
+	function getPicSrc(obj) {
+		var src = obj.src.toString();
+		bigpic.showBigPic(src);
+	}
+	function resizeim() {
+		var allt = document.all;
+		for(i = 0; i < allt.length; i++) {
+			var im = allt(i);
+			if(im.tagName.toLowerCase() == "img") {
+				var src = im.src.toString();
+				im.onclick = function() {getPicSrc(this);};
+				
+				if(im.width > 276) {
+					im.height = im.height*276/im.width;
+					im.width = 276;
+				}
+			}
+		}
+	}
+
+
+    </script>
+</head>
+<body onload="resizeim();"
+      style="margin:15px;margin-top:35px;margin-bottom:70px;background-color:#eeeeee;">
+<div style="clear:both;font-size:{$FontSize}px;line-height:{$LineHeight}px;px:font-weight:bold;text-align:center">
+    {$Title}
+</div>
+<div style="font-size:{$FontSize}px;line-height:{$LineHeight}px">
+    {$Content}
+</div>
+
+</body>
+</html>

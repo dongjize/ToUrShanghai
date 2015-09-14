@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp">
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/gallery_viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal" />
+
+        <LinearLayout
+            android:id="@+id/point_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/gallery_viewpager"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="8dp"
+            android:orientation="horizontal"></LinearLayout>
+
+    </RelativeLayout>
+
+    <!--<com.dong.tourshanghai.view.XListView-->
+    <!--android:id="@+id/xlv_fragment0"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"/>-->
+    <com.dong.tourshanghai.view.XListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/lv_fragment0">
+
+    </com.dong.tourshanghai.view.XListView>
+
+</LinearLayout>

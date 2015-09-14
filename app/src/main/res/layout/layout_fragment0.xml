@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include
+        android:id="@+id/common_titlebar"
+        layout="@layout/include_mytitlebar" />
+
+    <HorizontalScrollView
+        android:layout_below="@id/common_titlebar"
+        android:id="@+id/scroll_news_type"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/background_gray"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp">
+
+            <TextView
+                android:id="@+id/tv_news_type0"
+                style="@style/newsTypeText"
+                android:text="头条" />
+
+            <TextView
+                android:id="@+id/tv_news_type1"
+                style="@style/newsTypeText"
+                android:text="专题" />
+
+            <TextView
+                android:id="@+id/tv_news_type2"
+                style="@style/newsTypeText"
+                android:text="攻略" />
+
+            <TextView
+                android:id="@+id/tv_news_type3"
+                style="@style/newsTypeText"
+                android:text="闲情" />
+
+            <TextView
+                android:id="@+id/tv_news_type4"
+                style="@style/newsTypeText"
+                android:text="活动" />
+
+            <TextView
+                android:id="@+id/tv_news_type5"
+                style="@style/newsTypeText"
+                android:text="杂谈" />
+
+            <TextView
+                android:id="@+id/tv_news_type6"
+                style="@style/newsTypeText"
+                android:text="其他" />
+
+        </LinearLayout>
+    </HorizontalScrollView>
+
+    <ImageView
+        android:id="@+id/indicator"
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:background="@color/themecolor"
+        android:layout_below="@id/scroll_news_type" />
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/news_viewpager"
+        android:layout_below="@id/scroll_news_type"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+</RelativeLayout>

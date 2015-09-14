@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:drawable="@mipmap/tab_item_more" android:state_enabled="true" android:state_selected="false" />
+
+    <item android:drawable="@mipmap/tab_item_more_red" android:state_enabled="true" android:state_selected="true" />
+
+</selector>
