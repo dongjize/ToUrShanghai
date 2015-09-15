@@ -91,6 +91,10 @@ public class Fragment3 extends BaseFragment implements View.OnClickListener {
                 startActivity(new Intent(getActivity(), LoginActivity.class));
                 getActivity().overridePendingTransition(R.animator.anim_activity_change, R.animator.anim_activity_exit);
                 break;
+            case R.id.setting_collection:
+                startActivity(new Intent(getActivity(), LoginActivity.class));
+                getActivity().overridePendingTransition(R.animator.anim_activity_change, R.animator.anim_activity_exit);
+                break;
             case R.id.setting_clear_cache:
                 clearCache();
                 break;

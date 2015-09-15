@@ -55,6 +55,23 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
+                android:layout_marginTop="20dp"
+                android:background="@color/gray" />
+
+            <RelativeLayout
+                android:id="@+id/setting_collection"
+                style="@style/settingItem">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="我收藏的景点"
+                    android:textSize="18sp" />
+            </RelativeLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
                 android:background="@color/gray"
                 android:layout_marginTop="20dp" />
 

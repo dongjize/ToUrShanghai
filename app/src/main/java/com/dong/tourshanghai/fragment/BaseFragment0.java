@@ -106,8 +106,6 @@ public abstract class BaseFragment0 extends BaseFragment implements IXListViewLi
         mListView = (XListView) view.findViewById(R.id.lv_fragment0);
         mList = new ArrayList<NewsListEntity.NewsModel>();
 
-        viewPager.setOffscreenPageLimit(1);
-
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

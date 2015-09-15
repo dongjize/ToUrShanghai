@@ -20,6 +20,7 @@ public class SpotsListEntity {
         public double spot_lat; //景点经度
         public double spot_lon; //景点纬度
         public String spot_addr; //景点地址
+        public String spot_trans; //景点交通
         public String spot_imgurl; //景点图片地址
         public String spot_intro; //景点详情介绍
         public String spot_fee; //景点门票

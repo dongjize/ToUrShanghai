@@ -71,7 +71,11 @@ public class HttpManager {
             StringBuffer buffer = new StringBuffer();
             buffer.append(requestVo.requestUrl);
             if (requestVo.requestDataMap != null) {
-                buffer.append("?");
+                if (!buffer.toString().contains("?")) {
+                    buffer.append("?");
+                } else {
+                    buffer.append("&");
+                }
                 HashMap<String, String> map = requestVo.requestDataMap;
                 int i = 1;
                 int size = map.size();

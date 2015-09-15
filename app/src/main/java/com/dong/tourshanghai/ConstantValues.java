@@ -26,10 +26,13 @@ public interface ConstantValues {
     // 景点图片基础地址
     public final static String PIC_URL_SPOTS = PIC_BASE_URL + "spots/";
     // 新闻列表
-    public final static String GET_NEWS_LIST = BASE_URL + "news";
+    public final static String GET_NEWS_LIST = BASE_URL + "news?method=list";
     // 新闻内容
-    public final static String GET_NEWS_DETAIL = BASE_URL + "news";
-
+    public final static String GET_NEWS_DETAIL = BASE_URL + "news?method=detail";
+    // 景点列表
+    public final static String GET_SPOTS_LIST = BASE_URL + "spots?method=list";
+    // 景点详情
+    public final static String GET_SPOT_DETAIL = BASE_URL + "spots?method=detail";
 
     //新闻类型
     public static final int NEWS_TYPE_0 = 0;

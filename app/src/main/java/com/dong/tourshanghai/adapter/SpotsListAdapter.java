@@ -56,20 +56,29 @@ public class SpotsListAdapter extends BaseAdapter {
             convertView = mInflater.inflate(R.layout.item_spotslist, null);
             holder.spotIcon = (NetworkImageView) convertView.findViewById(R.id.niv_spoticon);
             holder.spotName = (TextView) convertView.findViewById(R.id.tv_spotname);
+            holder.spotLat = (TextView) convertView.findViewById(R.id.tv_spotlat);
+            holder.spotLon = (TextView) convertView.findViewById(R.id.tv_spotlon);
+            convertView.setTag(holder);
 
-            String url = ConstantValues.PIC_URL_SPOTS + spotModel.spot_imgurl;
-            ImageLoader loader = new ImageLoader(CustomApplication.getHttpQueue(), new BitmapCache());
-            holder.spotIcon.setDefaultImageResId(R.mipmap.ic_launcher);
-            holder.spotIcon.setErrorImageResId(R.mipmap.ic_launcher);
-            holder.spotIcon.setImageUrl(url, loader);
-
+        } else {
+            holder = (ViewHolder) convertView.getTag();
         }
+
+        holder.spotName.setText(spotModel.spot_name);
+        holder.spotLat.setText(spotModel.spot_lat + "");
+        holder.spotLon.setText(spotModel.spot_lon + "");
+
+        String url = ConstantValues.PIC_URL_SPOTS + spotModel.spot_imgurl;
+        ImageLoader loader = new ImageLoader(CustomApplication.getHttpQueue(), new BitmapCache());
+        holder.spotIcon.setDefaultImageResId(R.mipmap.ic_launcher);
+        holder.spotIcon.setErrorImageResId(R.mipmap.ic_launcher);
+        holder.spotIcon.setImageUrl(url, loader);
         return convertView;
     }
 
     private class ViewHolder {
         NetworkImageView spotIcon;
         TextView spotName;
-        TextView spot;
+        TextView spotLat, spotLon;
     }
 }
