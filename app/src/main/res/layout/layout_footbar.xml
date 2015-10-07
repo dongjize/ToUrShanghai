@@ -81,7 +81,7 @@
                     android:layout_width="35dp"
                     android:layout_height="35dp"
                     android:paddingTop="3dp"
-                    android:src="@mipmap/tab_item_map" />
+                    android:src="@mipmap/tab_item_spots" />
 
                 <TextView
                     android:id="@+id/tv_tab2"

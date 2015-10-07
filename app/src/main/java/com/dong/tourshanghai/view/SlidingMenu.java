@@ -14,7 +14,7 @@ import android.widget.LinearLayout;
 import com.dong.tourshanghai.R;
 
 /**
- * Intro:
+ * Intro: 侧滑菜单
  * <p>
  * Programmer: dong
  * Date: 15/9/5.

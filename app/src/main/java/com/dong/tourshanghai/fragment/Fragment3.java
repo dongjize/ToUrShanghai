@@ -7,9 +7,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,7 +25,7 @@ import com.dong.tourshanghai.view.CircleImageView;
 import java.io.File;
 
 /**
- * Intro:
+ * Intro: 更多
  * <p>
  * Programmer: dong
  * Date: 15/9/3.
@@ -39,14 +39,9 @@ public class Fragment3 extends BaseFragment implements View.OnClickListener {
     private File iconFile;
 
     @Override
-    public View initView(LayoutInflater inflater) {
-        View view = inflater.inflate(R.layout.layout_fragment3, null);
-        return view;
-    }
-
-    @Override
     public void initData(Bundle savedInstanceState) {
-        findViewById();
+        super.initData(savedInstanceState);
+
         setListeners();
 
         SharedPreferencesUtils sp = new SharedPreferencesUtils(mContext, "userIcon");
@@ -59,15 +54,20 @@ public class Fragment3 extends BaseFragment implements View.OnClickListener {
 
     }
 
-    private void findViewById() {
-        clearCache = (RelativeLayout) view.findViewById(R.id.setting_clear_cache);
-        aboutUs = (RelativeLayout) view.findViewById(R.id.setting_about);
-        feedBack = (RelativeLayout) view.findViewById(R.id.setting_feedback);
-        shareFriends = (RelativeLayout) view.findViewById(R.id.setting_share);
-        logout = (RelativeLayout) view.findViewById(R.id.setting_logout);
-        userIcon = (CircleImageView) view.findViewById(R.id.iv_user_icon);
-        userName = (TextView) view.findViewById(R.id.tv_user_name);
-        btnLogin = (Button) view.findViewById(R.id.btn_login);
+    @Override
+    public void setContentView(LinearLayout contentLayout) {
+        View childView = View.inflate(mContext, R.layout.layout_fragment3, null);
+
+        clearCache = (RelativeLayout) childView.findViewById(R.id.setting_clear_cache);
+        aboutUs = (RelativeLayout) childView.findViewById(R.id.setting_about);
+        feedBack = (RelativeLayout) childView.findViewById(R.id.setting_feedback);
+        shareFriends = (RelativeLayout) childView.findViewById(R.id.setting_share);
+        logout = (RelativeLayout) childView.findViewById(R.id.setting_logout);
+        userIcon = (CircleImageView) childView.findViewById(R.id.iv_user_icon);
+        userName = (TextView) childView.findViewById(R.id.tv_user_name);
+        btnLogin = (Button) childView.findViewById(R.id.btn_login);
+
+        contentLayout.addView(childView);
     }
 
     private void setListeners() {

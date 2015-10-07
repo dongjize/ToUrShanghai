@@ -4,10 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <include
-        android:id="@+id/common_titlebar"
-        layout="@layout/include_mytitlebar" />
-
     <ListView
         android:id="@+id/lv_myspots"
         android:layout_width="match_parent"

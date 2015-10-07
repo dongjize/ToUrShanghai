@@ -1,9 +1,10 @@
 package com.dong.tourshanghai.ui;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.dong.tourshanghai.ConstantValues;
 import com.dong.tourshanghai.R;
@@ -11,7 +12,6 @@ import com.dong.tourshanghai.entity.SpotsListEntity;
 import com.dong.tourshanghai.net.HttpManager;
 import com.dong.tourshanghai.net.HttpRequestVo;
 import com.dong.tourshanghai.utils.JSONParser;
-import com.dong.tourshanghai.view.MyTitlebar;
 
 import org.json.JSONObject;
 
@@ -19,34 +19,29 @@ import java.util.HashMap;
 
 /**
  * Intro:
- * <p/>
+ * <p>
  * Programmer: dong
  * Date: 15/9/12.
  */
-public class SpotDetailActivity extends BaseActivity {
+public class SpotDetailActivity extends NaviBaseActivity {
 
-    private MyTitlebar.OnHeaderButtonClickListener listener;
     private ImageView ivSpotImg;
     private TextView tvSpotName, tvSpotAddr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.layout_spot_detail);
+        super.setNavigateMiddleTitle("店长名片");
+        super.setNavigateLeftButtonIsShow(true);
+        super.setNavigateRightButtonIsShow(false);
 
-        initTitlebarForBoth("", R.mipmap.btn_back, R.mipmap.ic_launcher, new MyTitlebar.OnHeaderButtonClickListener() {
-            @Override
-            public void onLeftClick() {
-                finish();
-            }
+    }
 
-            @Override
-            public void onRightClick() {
-                Toast.makeText(SpotDetailActivity.this, "地图功能...待实现", Toast.LENGTH_LONG).show();
-            }
-        });
+    @Override
+    public void setContentView(LinearLayout contentView) {
+        View childView = View.inflate(mContext, R.layout.layout_spot_detail, null);
 
-
+        contentView.addView(childView);
     }
 
     private void getSpotDetailData(int spot_id) {

@@ -5,9 +5,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.dong.tourshanghai.R;
@@ -21,7 +21,7 @@ import java.util.List;
  * Programmer: dong
  * Date: 15/9/3.
  */
-public class Fragment0 extends BaseFragment implements OnClickListener {
+public class Fragment0 extends NaviBaseFragment implements OnClickListener {
 
     private ViewPager mViewPager;
     private FragmentPagerAdapter mAdapter;
@@ -31,16 +31,10 @@ public class Fragment0 extends BaseFragment implements OnClickListener {
     private TextView tv0, tv1, tv2, tv3, tv4, tv5, tv6;
     private List<TextView> tvs = new ArrayList<TextView>();
 
-
-    @Override
-    public View initView(LayoutInflater inflater) {
-        View view = inflater.inflate(R.layout.layout_fragment0, null);
-        return view;
-    }
-
     @Override
     public void initData(Bundle savedInstanceState) {
-        initTitlebarForOnlyTitle("资讯");
+        super.initData(savedInstanceState);
+
         mViewPager = (ViewPager) getActivity().findViewById(R.id.news_viewpager);
         loadView();
 
@@ -110,6 +104,15 @@ public class Fragment0 extends BaseFragment implements OnClickListener {
 
             }
         });
+    }
+
+    @Override
+    public void setContentView(LinearLayout contentLayout) {
+        View childView = View.inflate(mContext, R.layout.layout_fragment0, null);
+        super.setNavigateLeftButtonIsShow(false);
+        super.setNavigateRightButtonIsShow(false);
+        super.setNavigateMiddleTitle("资讯");
+        contentLayout.addView(childView);
     }
 
     private void loadView() {

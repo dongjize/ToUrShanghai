@@ -3,13 +3,17 @@ package com.dong.tourshanghai.fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.IBinder;
 import android.os.Message;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.dong.tourshanghai.CustomApplication;
@@ -17,7 +21,6 @@ import com.dong.tourshanghai.R;
 import com.dong.tourshanghai.net.HttpManager;
 import com.dong.tourshanghai.net.HttpRequestListener;
 import com.dong.tourshanghai.net.HttpRequestVo;
-import com.dong.tourshanghai.view.MyTitlebar;
 
 /**
  * Intro: Fragment基类
@@ -25,12 +28,13 @@ import com.dong.tourshanghai.view.MyTitlebar;
  * Programmer: dong
  * Date: 15/9/3.
  */
-public abstract class BaseFragment extends Fragment {
+public class BaseFragment extends Fragment {
+    protected LinearLayout naviLayout, contentLayout;
 
-    public View view;
+
+    protected View contentView;
     public HttpManager httpManager;
 
-    public MyTitlebar mTitleBar;
     Toast mToast;
     protected Context mContext;
 
@@ -50,89 +54,39 @@ public abstract class BaseFragment extends Fragment {
         mContext = getActivity();
     }
 
-    @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = initView(inflater);
-        return view;
+        contentView = inflater.inflate(R.layout.layout_base, null);
+        return contentView;
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        initView(contentView);
         initData(savedInstanceState);
+
     }
 
-    /**
-     * 初始化界面
-     *
-     * @param inflater
-     * @return
-     */
-    public abstract View initView(LayoutInflater inflater);
-
-    /**
-     * 初始化数据
-     *
-     * @param savedInstanceState
-     */
-    public abstract void initData(Bundle savedInstanceState);
-
-
-    /**
-     * 标题栏只有title
-     *
-     * @param titleName
-     */
-    public void initTitlebarForOnlyTitle(String titleName) {
-        mTitleBar = (MyTitlebar) view.findViewById(R.id.common_titlebar);
-        mTitleBar.initStyle(MyTitlebar.HeaderStyle.DEFAULT_TITLE);
-        mTitleBar.setDefaultTitle(titleName);
+    public void initView(View view) {
+        naviLayout = (LinearLayout) view.findViewById(R.id.baselayout_navbar);
+        contentLayout = (LinearLayout) view.findViewById(R.id.baselayout_content);
     }
 
-    /**
-     * 初始化带左右按钮的标题栏
-     *
-     * @param titleName
-     * @param leftDrawableId
-     * @param rightDrawableId
-     * @param listener
-     */
-    public void initTitlebarForBoth(String titleName, int leftDrawableId, int rightDrawableId,
-                                    MyTitlebar.OnHeaderButtonClickListener listener) {
-        mTitleBar = (MyTitlebar) view.findViewById(R.id.common_titlebar);
-        mTitleBar.initStyle(MyTitlebar.HeaderStyle.TITLE_DOUBLE_BUTTON);
-        mTitleBar.setTitleAndLeftButton(titleName, leftDrawableId, listener);
-        mTitleBar.setTitleAndRightButton(titleName, rightDrawableId, listener);
+    public void initData(Bundle savedInstanceState) {
+        setNaviBar(naviLayout);
+        setContentView(contentLayout);
     }
 
-    /**
-     * 初始化带左按钮的标题栏
-     *
-     * @param titleName
-     * @param leftDrawableId
-     * @param listener
-     */
-    public void initTitlebarForLeft(String titleName, int leftDrawableId,
-                                    MyTitlebar.OnHeaderButtonClickListener listener) {
-        mTitleBar = (MyTitlebar) view.findViewById(R.id.common_titlebar);
-        mTitleBar.initStyle(MyTitlebar.HeaderStyle.TITLE_LEFT_BUTTON);
-        mTitleBar.setTitleAndLeftButton(titleName, leftDrawableId, listener);
+    public void setNaviBar(LinearLayout naviBar) {
+
     }
 
-    /**
-     * 初始化带右按钮的标题栏
-     *
-     * @param titleName
-     * @param rightDrawableId
-     * @param listener
-     */
-    public void initTitlebarForRight(String titleName, int rightDrawableId,
-                                     MyTitlebar.OnHeaderButtonClickListener listener) {
-        mTitleBar = (MyTitlebar) view.findViewById(R.id.common_titlebar);
-        mTitleBar.initStyle(MyTitlebar.HeaderStyle.TITLE_RIGHT_BUTTON);
-        mTitleBar.setTitleAndRightButton(titleName, rightDrawableId, listener);
+    public void setContentView(LinearLayout contentLayout) {
+
     }
+
+
 
 
     public void showToast(final String text) {
@@ -180,19 +134,19 @@ public abstract class BaseFragment extends Fragment {
      *
      * @param <T> 数据类型,一般为HashMap
      */
-    public abstract interface DataCallback<T> {
-        public abstract void onStart();
+    public interface DataCallback<T> {
+        public void onStart();
 
-        public abstract void onFailed();
+        public void onFailed();
 
         /**
          * 处理服务器返回的数据
          *
          * @param paramObject 服务器返回的数据实体
          */
-        public abstract void processData(T paramObject);
+        public void processData(T paramObject);
 
-        public abstract void onFinish();
+        public void onFinish();
     }
 
     /**
@@ -251,5 +205,50 @@ public abstract class BaseFragment extends Fragment {
         super.onStop();
         CustomApplication.getHttpQueue().cancelAll("reqGet");
         CustomApplication.getHttpQueue().cancelAll("reqPost");
+    }
+
+    /**
+     * 根据EditText所在坐标和用户点击的坐标相对比，来判断是否隐藏键盘，因为当用户点击EditText时则不能隐藏
+     *
+     * @param v
+     * @param event
+     * @return
+     */
+    private boolean isShouldHideKeyboard(View v, MotionEvent event)
+    {
+        if (v != null && (v instanceof EditText))
+        {
+            int[] l = {0, 0};
+            v.getLocationInWindow(l);
+            int left = l[0],
+                    top = l[1],
+                    bottom = top + v.getHeight(),
+                    right = left + v.getWidth();
+            if (event.getX() > left && event.getX() < right && event.getY() > top && event.getY() < bottom)
+            {
+                // 点击EditText的事件，忽略它。
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+        // 如果焦点不是EditText则忽略，这个发生在视图刚绘制完，第一个焦点不在EditText上，和用户用轨迹球选择其他的焦点
+        return false;
+    }
+
+    /**
+     * 获取InputMethodManager，隐藏软键盘
+     *
+     * @param token
+     */
+    private void hideKeyboard(IBinder token)
+    {
+        if (token != null)
+        {
+            InputMethodManager im = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
+            im.hideSoftInputFromWindow(token, InputMethodManager.HIDE_NOT_ALWAYS);
+        }
     }
 }

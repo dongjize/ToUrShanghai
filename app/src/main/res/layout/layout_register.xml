@@ -5,10 +5,6 @@
     android:layout_height="match_parent"
     android:background="@color/background_gray">
 
-    <include
-        android:id="@+id/common_titlebar"
-        layout="@layout/include_mytitlebar" />
-
     <LinearLayout
         android:layout_marginTop="20dp"
         android:layout_width="match_parent"

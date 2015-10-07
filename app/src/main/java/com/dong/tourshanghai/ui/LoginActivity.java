@@ -6,6 +6,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.dong.tourshanghai.ConstantValues;
@@ -14,7 +15,6 @@ import com.dong.tourshanghai.entity.UserInfoEntity;
 import com.dong.tourshanghai.net.HttpRequestVo;
 import com.dong.tourshanghai.utils.CommonUtils;
 import com.dong.tourshanghai.utils.JSONParser;
-import com.dong.tourshanghai.view.MyTitlebar;
 
 import org.json.JSONObject;
 
@@ -26,7 +26,7 @@ import java.util.HashMap;
  * Programmer: dong
  * Date: 15/9/4.
  */
-public class LoginActivity extends BaseActivity implements View.OnClickListener {
+public class LoginActivity extends NaviBaseActivity implements View.OnClickListener {
 
     private EditText etUserPhone, etPassword;
     private Button loginBtn;
@@ -37,21 +37,17 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.layout_login);
-        initTitlebarForLeft("登录", R.mipmap.btn_back, new MyTitlebar.OnHeaderButtonClickListener() {
-            @Override
-            public void onLeftClick() {
+        super.setNavigateMiddleTitle("登录");
+        super.setNavigateLeftButtonIsShow(true);
+        super.setNavigateRightButtonIsShow(false);
+    }
 
-            }
-
-            @Override
-            public void onRightClick() {
-
-            }
-        });
-
+    @Override
+    public void setContentView(LinearLayout contentView) {
+        super.setContentView(contentView);
+        View childView = View.inflate(mContext, R.layout.layout_login, null);
         init();
-
+        contentView.addView(childView);
     }
 
     private void init() {

@@ -1,10 +1,12 @@
 package com.dong.tourshanghai.ui;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
-import android.widget.Toast;
+import android.webkit.WebViewClient;
+import android.widget.LinearLayout;
 
 import com.dong.tourshanghai.ConstantValues;
 import com.dong.tourshanghai.R;
@@ -12,8 +14,6 @@ import com.dong.tourshanghai.entity.NewsListEntity;
 import com.dong.tourshanghai.net.HttpManager;
 import com.dong.tourshanghai.net.HttpRequestVo;
 import com.dong.tourshanghai.utils.JSONParser;
-import com.dong.tourshanghai.utils.TemplateManager;
-import com.dong.tourshanghai.view.MyTitlebar;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -26,38 +26,26 @@ import java.util.HashMap;
  * Programmer: dong
  * Date: 15/9/9.
  */
-public class NewsDetailActicity extends BaseActivity {
+public class NewsDetailActicity extends NaviBaseActivity {
 
     private int newsId;
-    private NewsListEntity.NewsModel newsModel;
-    private WebView detailWebView;
-    private String detailTemp;
-
-    private int minFontSize = 12, maxFontSize = 20;
-    private int getMinFontSize = 16;
-    private int lineHeight = 25;
+    private WebView webView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.layout_news_details);
-        initTitlebarForBoth("资讯", R.mipmap.btn_back, R.mipmap.ic_launcher,
-                new MyTitlebar.OnHeaderButtonClickListener() {
-                    @Override
-                    public void onLeftClick() {
-                        finish();
-                    }
-
-                    @Override
-                    public void onRightClick() {
-                        Toast.makeText(NewsDetailActicity.this, "评论功能...待实现...", Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-        newsId = getIntent().getIntExtra("id", 0);
-        getNewsDetailData(newsId);
+        super.setNavigateMiddleTitle("资讯");
+        setNavigateLeftButtonIsShow(true);
+        setNavigateRightButtonIsShow(false);
     }
 
+    @Override
+    public void setContentView(LinearLayout contentView) {
+        View childView = View.inflate(mContext, R.layout.layout_news_details, null);
+        newsId = getIntent().getIntExtra("id", 0);
+        contentView.addView(childView);
+        getNewsDetailData(newsId);
+    }
 
     private void getNewsDetailData(int id) {
         HttpRequestVo vo = new HttpRequestVo();
@@ -85,8 +73,7 @@ public class NewsDetailActicity extends BaseActivity {
 
             @Override
             public void processData(HashMap<String, Object> paramObject) {
-                newsModel = (NewsListEntity.NewsModel) paramObject.get("result");
-                showDetailWebView(newsModel, 17, 27);
+
             }
 
             @Override
@@ -98,31 +85,54 @@ public class NewsDetailActicity extends BaseActivity {
 
     /**
      * WebView展示新闻详情
-     *
-     * @param newsDetail
-     * @param footSize
-     * @param lineHeight
      */
     @SuppressLint("JavascriptInterface")
-    protected void showDetailWebView(NewsListEntity.NewsModel newsDetail, int footSize, int lineHeight) {
-        detailTemp = TemplateManager.getTemplateManager().getTemplate(mContext, TemplateManager.NEWS_DETAIL_TEMP);
-        detailTemp = detailTemp.replace(TemplateManager.NEWS_TITLE, newsDetail.news_title);
-        detailTemp = detailTemp.replace(TemplateManager.NEWS_CONTENT, newsDetail.news_content);
+    private void showDetailWebView() {
+        if (webView != null) {
+            WebSettings webSettings = webView.getSettings();
+            webSettings.setJavaScriptEnabled(true);
+            webView.setWebViewClient(new WebViewClient() {
+                @Override
+                public void onPageFinished(WebView view, String url) {
+                    hideProgressDialog();
+                }
+            });
+            webView.removeJavascriptInterface("searchBoxJavaBredge_");
+            webView.canGoBack();
+//            loadUrl();
 
-        detailWebView.getSettings().setJavaScriptEnabled(true);
+        }
 
-        detailWebView.addJavascriptInterface(new Object() {
-            /**
-             * 全屏显示大图
-             * @param src
-             */
-            public void showBigPic(String src) {
-                Intent intent = new Intent(mContext, ZoomPicActivity.class);
-                intent.putExtra("picUrl", src.toString());
-                startActivity(intent);
-            }
-        }, "bigpic");
-        detailWebView.loadDataWithBaseURL("", detailTemp, "text/html", "UTF-8", null);
+//        detailTemp = TemplateManager.getTemplateManager().getTemplate(mContext, TemplateManager.NEWS_DETAIL_TEMP);
+//        detailTemp = detailTemp.replace(TemplateManager.NEWS_TITLE, newsDetail.news_title);
+////        detailTemp = detailTemp.replace(TemplateManager.NEWS_CONTENT, newsDetail.news_content);
+//
+//        detailWebView.getSettings().setJavaScriptEnabled(true);
+//
+//        detailWebView.addJavascriptInterface(new Object() {
+//            /**
+//             * 全屏显示大图
+//             * @param src
+//             */
+//            public void showBigPic(String src) {
+//                Intent intent = new Intent(mContext, ZoomPicActivity.class);
+//                intent.putExtra("picUrl", src.toString());
+//                startActivity(intent);
+//            }
+//        }, "bigpic");
+//        detailWebView.loadDataWithBaseURL("", detailTemp, "text/html", "UTF-8", null);
+
+    }
+
+    private void loadUrl(String url) {
+        if (webView != null) {
+            webView.loadUrl(url);
+            showProgressDialog();
+        }
+    }
+
+    @Override
+    public void topRightButtonClick(View v) {
 
     }
 }

@@ -88,4 +88,6 @@ public class SharedPreferencesUtils {
         editor.putString(SHARED_KEY_USERICON, uri.toString());
         editor.commit();
     }
+
+
 }

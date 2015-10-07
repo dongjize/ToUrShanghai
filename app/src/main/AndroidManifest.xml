@@ -52,8 +52,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ui.BaseActivity" />
+        <activity android:name=".ui.NaviBaseActivity" />
         <activity android:name=".ui.MainActivity" />
         <activity android:name=".ui.NewsDetailActicity" />
+        <activity android:name=".ui.DistanceActivity" />
+        <activity android:name=".ui.SpotsMapActivity" />
+        <activity
+            android:name=".ui.RouteActivity"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".ui.RouteResultActivity" />
         <activity
             android:name=".ui.LoginActivity"
             android:windowSoftInputMode="adjustPan" />
@@ -62,13 +70,13 @@
             android:windowSoftInputMode="adjustPan" />
         <activity android:name=".ui.BlankActivity" />
 
-        <!--<service android:name="com.baidu.location.f"-->
-        <!--android:enabled="true"-->
-        <!--android:process=":remote">-->
-        <!--<intent-filter>-->
-        <!--<action android:name="com.baidu.location.service_v2.2"/>-->
-        <!--</intent-filter>-->
-        <!--</service>-->
+        <service android:name="com.baidu.location.f"
+            android:enabled="true"
+            android:process=":remote">
+            <intent-filter>
+                <action android:name="com.baidu.location.service_v2.2"/>
+            </intent-filter>
+        </service>
 
     </application>
 

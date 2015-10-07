@@ -5,11 +5,11 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.dong.tourshanghai.R;
 import com.dong.tourshanghai.utils.CommonUtils;
-import com.dong.tourshanghai.view.MyTitlebar;
 
 /**
  * Intro:
@@ -17,7 +17,7 @@ import com.dong.tourshanghai.view.MyTitlebar;
  * Programmer: dong
  * Date: 15/9/9.
  */
-public class RegisterActivity extends BaseActivity implements View.OnClickListener {
+public class RegisterActivity extends NaviBaseActivity implements View.OnClickListener {
 
     private Button btnRegister, btnSendCode;
     private EditText etUserPhone, etPassword, etIdCode;
@@ -26,31 +26,26 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.layout_register);
-        initTitlebarForLeft("注册", R.mipmap.btn_back, new MyTitlebar.OnHeaderButtonClickListener() {
-            @Override
-            public void onLeftClick() {
+        super.setNavigateMiddleTitle("注册");
+        setNavigateLeftButtonIsShow(true);
+        setNavigateRightButtonIsShow(false);
 
-            }
+    }
 
-            @Override
-            public void onRightClick() {
-
-            }
-        });
-
+    @Override
+    public void setContentView(LinearLayout contentView) {
+        View childView = View.inflate(mContext, R.layout.layout_register, null);
 
         btnRegister = (Button) findViewById(R.id.btn_register);
         btnSendCode = (Button) findViewById(R.id.btn_sendCode);
-
         etUserPhone = (EditText) findViewById(R.id.et_userphone);
         etPassword = (EditText) findViewById(R.id.et_password);
         etIdCode = (EditText) findViewById(R.id.et_idcode);
-
         btnRegister.setOnClickListener(this);
         btnSendCode.setOnClickListener(this);
-    }
 
+        contentView.addView(childView);
+    }
 
     @Override
     public void onClick(View v) {

@@ -1,11 +1,18 @@
 package com.dong.tourshanghai.ui;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.IBinder;
 import android.os.Message;
 import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.dong.tourshanghai.CustomApplication;
@@ -13,7 +20,7 @@ import com.dong.tourshanghai.R;
 import com.dong.tourshanghai.net.HttpManager;
 import com.dong.tourshanghai.net.HttpRequestListener;
 import com.dong.tourshanghai.net.HttpRequestVo;
-import com.dong.tourshanghai.view.MyTitlebar;
+import com.dong.tourshanghai.utils.AppManager;
 
 /**
  * Intro: 所有Activity都继承的基类
@@ -21,74 +28,44 @@ import com.dong.tourshanghai.view.MyTitlebar;
  * Programmer: dong
  * Date: 15/9/5.
  */
-public abstract class BaseActivity extends FragmentActivity {
+public class BaseActivity extends FragmentActivity {
 
-    protected MyTitlebar mTitlebar;
+    //    protected MyTitlebar mTitlebar;
     CustomApplication mApplication;
     Toast mToast;
     public HttpManager httpManager;
     protected Context mContext;
 
+    protected LinearLayout naviLayout, contentLayout;
+    protected ProgressDialog progressDialog = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.layout_base);
+        mContext = this;
         mApplication = CustomApplication.getInstance();
 
+        naviLayout = (LinearLayout) findViewById(R.id.baselayout_navbar);
+        contentLayout = (LinearLayout) findViewById(R.id.baselayout_content);
+        setNaviBar(naviLayout);
+        setContentView(contentLayout);
+
+        AppManager.getInstance().addActivity(this);
+
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.setMessage("请稍等..");
+        progressDialog.setIndeterminate(false);
+        progressDialog.setCancelable(false);
     }
 
-    /**
-     * 标题栏只有title
-     *
-     * @param titleName
-     */
-    public void initTitlebarForOnlyTitle(String titleName) {
-        mTitlebar = (MyTitlebar) findViewById(R.id.common_titlebar);
-        mTitlebar.initStyle(MyTitlebar.HeaderStyle.DEFAULT_TITLE);
-        mTitlebar.setDefaultTitle(titleName);
+    public void setNaviBar(LinearLayout navBar) {
+
     }
 
-    /**
-     * 初始化带左右按钮的标题栏
-     *
-     * @param titleName
-     * @param leftDrawableId
-     * @param rightDrawableId
-     * @param listener
-     */
-    public void initTitlebarForBoth(String titleName, int leftDrawableId, int rightDrawableId,
-                                    MyTitlebar.OnHeaderButtonClickListener listener) {
-        mTitlebar = (MyTitlebar) findViewById(R.id.common_titlebar);
-        mTitlebar.initStyle(MyTitlebar.HeaderStyle.TITLE_DOUBLE_BUTTON);
-        mTitlebar.setTitleAndLeftButton(titleName, leftDrawableId, listener);
-        mTitlebar.setTitleAndRightButton(titleName, rightDrawableId, listener);
-    }
+    public void setContentView(LinearLayout contentView) {
 
-    /**
-     * 初始化带左按钮的标题栏
-     *
-     * @param titleName
-     * @param leftDrawableId
-     * @param listener
-     */
-    public void initTitlebarForLeft(String titleName, int leftDrawableId,
-                                    MyTitlebar.OnHeaderButtonClickListener listener) {
-        mTitlebar = (MyTitlebar) findViewById(R.id.common_titlebar);
-        mTitlebar.initStyle(MyTitlebar.HeaderStyle.TITLE_DOUBLE_BUTTON);
-        mTitlebar.setTitleAndLeftButton(titleName, leftDrawableId, listener);
-    }
-
-    /**
-     * 初始化带右按钮的标题栏
-     *
-     * @param titleName
-     * @param rightDrawableId
-     * @param listener
-     */
-    public void initTitlebarForRight(String titleName, int rightDrawableId,
-                                     MyTitlebar.OnHeaderButtonClickListener listener) {
-        mTitlebar = (MyTitlebar) findViewById(R.id.common_titlebar);
-        mTitlebar.initStyle(MyTitlebar.HeaderStyle.TITLE_RIGHT_BUTTON);
-        mTitlebar.setTitleAndRightButton(titleName, rightDrawableId, listener);
     }
 
     public void showToast(final String text) {
@@ -104,6 +81,37 @@ public abstract class BaseActivity extends FragmentActivity {
                     mToast.show();
                 }
             });
+        }
+    }
+
+    /**
+     * 显示加载框
+     */
+    protected void showProgressDialog() {
+        if (progressDialog != null) {
+            progressDialog.show();
+        }
+    }
+
+    /**
+     * 显示加载框
+     *
+     * @param msg 加载框文本
+     */
+    protected void showProgressDialog(String msg) {
+        if (progressDialog != null) {
+            progressDialog.setMessage(msg);
+            progressDialog.show();
+        }
+    }
+
+    /**
+     * 隐藏加载框
+     */
+    protected void hideProgressDialog() {
+        if (progressDialog != null) {
+            progressDialog.dismiss(); // 关闭进度框
+            progressDialog.hide();
         }
     }
 
@@ -136,14 +144,14 @@ public abstract class BaseActivity extends FragmentActivity {
      *
      * @param <T> 返回的数据类型
      */
-    public abstract interface DataCallback<T> {
-        public abstract void onStart();
+    public interface DataCallback<T> {
+        public void onStart();
 
-        public abstract void onFailed();
+        public void onFailed();
 
-        public abstract void processData(T paramObject);
+        public void processData(T paramObject);
 
-        public abstract void onFinish();
+        public void onFinish();
     }
 
     /**
@@ -195,6 +203,44 @@ public abstract class BaseActivity extends FragmentActivity {
         super.onStop();
         CustomApplication.getHttpQueue().cancelAll("reqGet");
         CustomApplication.getHttpQueue().cancelAll("reqPost");
+    }
+
+    /**
+     * 根据EditText所在坐标和用户点击的坐标相对比，来判断是否隐藏键盘，因为当用户点击EditText时则不能隐藏
+     *
+     * @param v
+     * @param event
+     * @return
+     */
+    private boolean isShouldHideKeyboard(View v, MotionEvent event) {
+        if (v != null && (v instanceof EditText)) {
+            int[] l = {0, 0};
+            v.getLocationInWindow(l);
+            int left = l[0],
+                    top = l[1],
+                    bottom = top + v.getHeight(),
+                    right = left + v.getWidth();
+            if (event.getX() > left && event.getX() < right && event.getY() > top && event.getY() < bottom) {
+                // 点击EditText的事件，忽略它。
+                return false;
+            } else {
+                return true;
+            }
+        }
+        // 如果焦点不是EditText则忽略，这个发生在视图刚绘制完，第一个焦点不在EditText上，和用户用轨迹球选择其他的焦点
+        return false;
+    }
+
+    /**
+     * 获取InputMethodManager，隐藏软键盘
+     *
+     * @param token
+     */
+    private void hideKeyboard(IBinder token) {
+        if (token != null) {
+            InputMethodManager im = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            im.hideSoftInputFromWindow(token, InputMethodManager.HIDE_NOT_ALWAYS);
+        }
     }
 
 }

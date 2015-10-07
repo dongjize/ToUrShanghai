@@ -3,4 +3,42 @@
     android:id="@+id/search_route_above"
     android:layout_width="match_parent"
     android:layout_height="55dp"
-    android:background="@color/themecolor"></RelativeLayout>
+    android:background="@color/themecolor">
+
+    <ImageView
+        android:id="@+id/btn_backup"
+        android:layout_width="30dp"
+        android:layout_height="35dp"
+        android:src="@mipmap/btn_back"
+        android:clickable="true"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"/>
+
+    <LinearLayout
+        android:id="@+id/select_transport"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_centerVertical="true"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_bus"
+            style="@style/selectTransportation"
+            android:text="公交"
+            android:textColor="@color/white"/>
+        <TextView
+            android:id="@+id/tv_car"
+            style="@style/selectTransportation"
+            android:text="驾车"
+            android:textColor="@color/gray"/>
+        <TextView
+            android:id="@+id/tv_walk"
+            style="@style/selectTransportation"
+            android:text="步行"
+            android:textColor="@color/gray"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

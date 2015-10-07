@@ -39,23 +39,30 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
 
-        setContentView(R.layout.layout_main);
+    @Override
+    public void setContentView(LinearLayout contentView) {
+        View childView = View.inflate(this, R.layout.layout_main, null);
+        initView(childView);
+        contentView.addView(childView);
+    }
 
-        mTab0 = (LinearLayout) findViewById(R.id.tab0);
-        mTab1 = (LinearLayout) findViewById(R.id.tab1);
-        mTab2 = (LinearLayout) findViewById(R.id.tab2);
-        mTab3 = (LinearLayout) findViewById(R.id.tab3);
+    private void initView(View childView) {
+        mTab0 = (LinearLayout) childView.findViewById(R.id.tab0);
+        mTab1 = (LinearLayout) childView.findViewById(R.id.tab1);
+        mTab2 = (LinearLayout) childView.findViewById(R.id.tab2);
+        mTab3 = (LinearLayout) childView.findViewById(R.id.tab3);
 
-        mImage0 = (ImageView) findViewById(R.id.iv_tab0);
-        mImage1 = (ImageView) findViewById(R.id.iv_tab1);
-        mImage2 = (ImageView) findViewById(R.id.iv_tab2);
-        mImage3 = (ImageView) findViewById(R.id.iv_tab3);
+        mImage0 = (ImageView) childView.findViewById(R.id.iv_tab0);
+        mImage1 = (ImageView) childView.findViewById(R.id.iv_tab1);
+        mImage2 = (ImageView) childView.findViewById(R.id.iv_tab2);
+        mImage3 = (ImageView) childView.findViewById(R.id.iv_tab3);
 
-        mText0 = (TextView) findViewById(R.id.tv_tab0);
-        mText1 = (TextView) findViewById(R.id.tv_tab1);
-        mText2 = (TextView) findViewById(R.id.tv_tab2);
-        mText3 = (TextView) findViewById(R.id.tv_tab3);
+        mText0 = (TextView) childView.findViewById(R.id.tv_tab0);
+        mText1 = (TextView) childView.findViewById(R.id.tv_tab1);
+        mText2 = (TextView) childView.findViewById(R.id.tv_tab2);
+        mText3 = (TextView) childView.findViewById(R.id.tv_tab3);
 
         mTab0.setOnClickListener(MainActivity.this);
         mTab1.setOnClickListener(MainActivity.this);
@@ -127,7 +134,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 } else {
                     transaction.show(mFragment2);
                 }
-                mImage2.setImageResource(R.mipmap.tab_item_map_red);
+                mImage2.setImageResource(R.mipmap.tab_item_spots_red);
                 mText2.setTextColor(this.getResources().getColor(R.color.themecolor));
                 break;
             case 3:
@@ -150,7 +157,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private void resetImgs() {
         mImage0.setImageResource(R.mipmap.tab_item_news);
         mImage1.setImageResource(R.mipmap.tab_item_map);
-        mImage2.setImageResource(R.mipmap.tab_item_map);
+        mImage2.setImageResource(R.mipmap.tab_item_spots);
         mImage3.setImageResource(R.mipmap.tab_item_more);
 
         mText0.setTextColor(this.getResources().getColor(R.color.gray));

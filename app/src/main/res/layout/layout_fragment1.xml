@@ -3,18 +3,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!--<com.baidu.mapapi.map.MapView-->
-    <!--android:id="@+id/bmapview"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:clickable="true"/>-->
+    <com.baidu.mapapi.map.MapView
+        android:id="@+id/bmapview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="true" />
 
     <include
-        layout="@layout/map_searchbar"
-        android:id="@+id/include_map_searchbar" />
+        android:id="@+id/include_map_searchbar"
+        layout="@layout/map_searchbar" />
 
     <include
-        layout="@layout/layout_arcmenu"
-        android:id="@+id/include_arcmenu" />
+        android:id="@+id/include_arcmenu"
+        layout="@layout/layout_arcmenu" />
 
 </RelativeLayout>

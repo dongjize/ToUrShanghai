@@ -6,6 +6,7 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.dong.tourshanghai.CustomApplication;
 
 import org.json.JSONObject;
@@ -19,6 +20,7 @@ import java.util.Map;
  * Date: 15/9/8.
  */
 public class VolleyRequest {
+    public static StringRequest stringRequest;
     public static JsonObjectRequest jsonObjectRequest;
     public static Context context;
 
@@ -30,7 +32,7 @@ public class VolleyRequest {
      * @param tag      标签
      * @param vif      回调接口
      */
-    public static void RequestGet(Context mContext, String url, String tag, VolleyInterface vif) {
+    public static void requestObjectGet(Context mContext, String url, String tag, VolleyInterface vif) {
         CustomApplication.getHttpQueue().cancelAll(tag);
         jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, vif.loadingListener(), vif.errorListener());
         jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(5000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
@@ -50,7 +52,7 @@ public class VolleyRequest {
      * @param params   参数的Map
      * @param vif      回调接口
      */
-    public static void RequestPost(Context mContext, String url, String tag, final Map<String, String> params,
+    public static void requestObjectPost(Context mContext, String url, String tag, final Map<String, String> params,
                                    VolleyInterface vif) {
         CustomApplication.getHttpQueue().cancelAll(tag);
         JSONObject object = new JSONObject(params);
@@ -67,4 +69,5 @@ public class VolleyRequest {
         CustomApplication.getHttpQueue().start();
 
     }
+
 }

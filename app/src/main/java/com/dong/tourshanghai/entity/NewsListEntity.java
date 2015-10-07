@@ -17,7 +17,6 @@ public class NewsListEntity {
         public int news_type;           //类型编号—— 1.热点 2.策划 3.节庆 4.攻略
         public String news_title;          //标题
         public String news_sub;            //简介
-        public String news_content;        //正文
         public String news_imgurl;         //列表图片url
         public int istop;
 //        public String               news_time;           //发表时间

@@ -69,7 +69,8 @@ public class ArcMenu extends ViewGroup implements View.OnClickListener {
         //dp-->px
         mRadius = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, mRadius,
                 getResources().getDisplayMetrics());
-        //???????
+
+        //用下面的方法获取自定义属性数组
         TypedArray a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.ArcMenu, defStyleAttr, 0);
 
         int n = a.getIndexCount();
@@ -118,7 +119,7 @@ public class ArcMenu extends ViewGroup implements View.OnClickListener {
             layoutButton();
             int count = getChildCount();
             /*
-            设置所有孩子的位置
+            设置所有子控件的位置
              */
             for (int i = 0; i < count - 1; i++) {
                 View child = getChildAt(i + 1);

@@ -98,7 +98,7 @@ public class HttpManager {
             }
 
             urlStr = buffer.toString();
-            VolleyRequest.RequestGet(context, urlStr, "volleyGet",
+            VolleyRequest.requestObjectGet(context, urlStr, "volleyGet",
                     new VolleyInterface(context, VolleyInterface.mListener, VolleyInterface.mErrorListener) {
                         @Override
                         public void onMySuccess(JSONObject result) {
@@ -140,7 +140,7 @@ public class HttpManager {
         requestStatus = 2;
         String urlStr = requestVo.requestJson.toString();
         Map<String, String> dataMap = requestVo.requestDataMap;
-        VolleyRequest.RequestPost(context, urlStr, "volleyPost", dataMap,
+        VolleyRequest.requestObjectPost(context, urlStr, "volleyPost", dataMap,
                 new VolleyInterface(context, VolleyInterface.mListener, VolleyInterface.mErrorListener) {
                     @Override
                     public void onMySuccess(JSONObject result) {

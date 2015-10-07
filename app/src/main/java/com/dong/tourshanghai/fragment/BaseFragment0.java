@@ -7,7 +7,6 @@ import android.os.Message;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -38,11 +37,11 @@ import java.util.List;
 
 /**
  * Intro: 新闻列表父类,ChildFragment0x均继承该类
- * <p>
+ * <p/>
  * Programmer: dong
  * Date: 15/9/8.
  */
-public abstract class BaseFragment0 extends BaseFragment implements IXListViewListener {
+public class BaseFragment0 extends BaseFragment implements IXListViewListener {
     // 图片轮播者
     protected ViewPager viewPager;
     // 轮播图列表
@@ -84,41 +83,42 @@ public abstract class BaseFragment0 extends BaseFragment implements IXListViewLi
         lazyLoad();
     }
 
-    protected abstract void lazyLoad();
+    protected void lazyLoad() {
+
+    }
 
     protected void onInvisible() {
 
     }
 
     @Override
-    public View initView(LayoutInflater inflater) {
-        view = inflater.inflate(R.layout.fragment0_child, null);
-        return view;
-    }
-
-    @Override
     public void initData(Bundle savedInstanceState) {
-        viewPager = (ViewPager) view.findViewById(R.id.gallery_viewpager);
-        mImgList = new ArrayList<NewsListEntity.NewsModel>();
-        pointGroup = (LinearLayout) view.findViewById(R.id.point_group);
-        views = new ArrayList<View>();
-//        mListView = (XListView) view.findViewById(R.id.xlv_fragment0);
-        mListView = (XListView) view.findViewById(R.id.lv_fragment0);
-        mList = new ArrayList<NewsListEntity.NewsModel>();
+        super.initData(savedInstanceState);
 
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.i("POSITION", position + "");
                 Intent detailIntent = new Intent(mContext, NewsDetailActicity.class);
-
                 detailIntent.putExtra("id", mList.get(position).news_id);
                 startActivity(detailIntent);
-
-
             }
         });
+    }
 
+    @Override
+    public void setContentView(LinearLayout contentLayout) {
+        View childView = View.inflate(mContext, R.layout.fragment0_child, null);
+
+        viewPager = (ViewPager) childView.findViewById(R.id.gallery_viewpager);
+        mImgList = new ArrayList<NewsListEntity.NewsModel>();
+        pointGroup = (LinearLayout) childView.findViewById(R.id.point_group);
+        views = new ArrayList<View>();
+//        mListView = (XListView) view.findViewById(R.id.xlv_fragment0);
+        mListView = (XListView) childView.findViewById(R.id.lv_fragment0);
+        mList = new ArrayList<NewsListEntity.NewsModel>();
+
+        contentLayout.addView(childView);
     }
 
     protected Handler handler = new Handler() {
@@ -169,20 +169,15 @@ public abstract class BaseFragment0 extends BaseFragment implements IXListViewLi
              */
             @Override
             public void processData(HashMap<String, Object> paramObject) {
-
                 NewsListEntity newsEntity = (NewsListEntity) paramObject.get("datamap");
-
                 ArrayList<NewsListEntity.NewsModel> newsList = newsEntity.newsList;
-
                 mList.addAll(newsList);
-
                 if (mListView.getAdapter() == null) {
                     mAdapter = new NewsItemAdapter(getContext(), mList);
                     mListView.setAdapter(mAdapter);
                 } else {
                     mAdapter.notifyDataSetChanged();
                 }
-
 
                 for (int i = 0; i < newsList.size(); i++) {
                     NewsListEntity.NewsModel item = newsList.get(i);
@@ -249,7 +244,6 @@ public abstract class BaseFragment0 extends BaseFragment implements IXListViewLi
 
                         @Override
                         public void onPageScrollStateChanged(int state) {
-
                         }
 
                     });
@@ -262,25 +256,19 @@ public abstract class BaseFragment0 extends BaseFragment implements IXListViewLi
 
             @Override
             public void onFinish() {
-
-//                NewsListEntity newsEntity = (NewsListEntity) paramObject.get("datamap");
-//                ArrayList<NewsListEntity.NewsModel> newsList = newsEntity.newsList;
-
-
-//                viewPager.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View v, MotionEvent event) {
-//                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-//                    isRunning = false;
-//                } else if (event.getAction() == MotionEvent.ACTION_UP) {
-//                    isRunning = true;
-//                }
-//                return false;
-//            }
-//        });
             }
 
         });
+
+    }
+
+    @Override
+    public void onRefresh() {
+
+    }
+
+    @Override
+    public void onLoadMore() {
 
     }
 

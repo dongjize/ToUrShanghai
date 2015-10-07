@@ -6,39 +6,41 @@
     android:layout_marginRight="10dp"
     android:layout_marginTop="10dp"
     android:clickable="true"
-    android:background="@color/white">
+    android:background="@drawable/bg_white_stroke_gray">
 
     <ImageView
         android:id="@+id/iv_searchbar_search"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@android:drawable/btn_star"
+        android:src="@mipmap/nw"
         android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="10dp" />
 
-    <TextView
+    <EditText
+        android:id="@+id/et_search_poi"
         android:layout_toRightOf="@id/iv_searchbar_search"
         android:layout_marginLeft="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="请输入您感兴趣的地点"
+        android:hint="请输入您感兴趣的地点"
+        android:textColorHint="@color/gray"
         android:textColor="@color/gray"
-        android:textSize="18sp"
-        android:layout_centerVertical="true" />
+        android:textSize="16sp"
+        android:singleLine="true"/>
 
     <ImageView
-        android:id="@+id/iv_searchbar_sound"
+        android:id="@+id/iv_searchbar_go"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
         android:layout_marginRight="10dp"
-        android:src="@android:drawable/btn_star" />
+        android:src="@mipmap/nu" />
 
 
     <ImageView
-        android:layout_toLeftOf="@id/iv_searchbar_sound"
+        android:layout_toLeftOf="@id/iv_searchbar_go"
         android:layout_marginRight="10dp"
         android:layout_width="0.5dp"
         android:layout_height="match_parent"
